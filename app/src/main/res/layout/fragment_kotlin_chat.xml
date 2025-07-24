@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/chat_color_receiver"
+    tools:context=".fragmentcycle.KotlinChatFrg">
+
+
+    <TextView
+        android:id="@+id/txvUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Products"
+        android:textSize="@dimen/_20ssp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/txvUserAge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Products"
+        android:textSize="@dimen/_20ssp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txvUser" />
+
+    <TextView
+        android:id="@+id/txvIsStd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Products"
+        android:textSize="@dimen/_20ssp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="CHAT"
+        android:textAlignment="center"
+        android:textSize="@dimen/_50ssp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

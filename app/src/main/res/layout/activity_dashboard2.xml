@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="quotes"
+            type="String" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".mvvm.sample.DashboardActivity">
+
+        <!-- Quote EditText -->
+        <EditText
+            android:id="@+id/etQuote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Quote" />
+
+        <!-- Author EditText -->
+        <EditText
+            android:id="@+id/etAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Author" />
+
+        <!-- Add Quote Button -->
+        <Button
+            android:id="@+id/btnAddQuote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:text="Add Quote" />
+
+        <!-- Quotes ScrollView -->
+        <ScrollView
+            android:id="@+id/scrollQuotes"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tvQuotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{quotes}"
+                android:textSize="@dimen/_20ssp" />
+
+        </ScrollView>
+
+    </LinearLayout>
+</layout>
