@@ -4,6 +4,6 @@ data class CreateProduct(
     val title: String,
     val price: Float,
     val description: String,
-    val categoryId: Int,
+    val categoryId: Int?,
     val images: List<String>
 )

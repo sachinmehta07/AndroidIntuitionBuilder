@@ -15,8 +15,11 @@
         android:theme="@style/Theme.KotlinBasicsLearn"
         tools:targetApi="31">
         <activity
-            android:name=".coroutines.MainActivity"
-            android:exported="true" >
+            android:name=".mvvm.production_level.Dashboard"
+            android:exported="false" />
+        <activity
+            android:name=".mvvm.retrofit.Dashboard"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,10 +27,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".coroutines.MainActivity"
+            android:exported="false"></activity>
+        <activity
             android:name=".diffutil.UserActivity"
-            android:exported="true"/>
-
-
+            android:exported="true" />
         <activity
             android:name=".mvvm.sample.DashboardActivity"
             android:exported="false" />

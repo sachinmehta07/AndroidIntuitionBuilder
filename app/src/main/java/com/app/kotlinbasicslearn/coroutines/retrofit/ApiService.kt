@@ -21,8 +21,11 @@ interface ApiService {
     @GET("products/{id}")
     suspend fun getProduct(@Path("id") id: Int): Response<Product>
 
+    @GET("categories")
+    suspend fun getCategories(): Response<List<Category>>
+
     @POST("products")
-    suspend fun createProduct(@Body newProduct: CreateProduct): Response<Product>
+    suspend fun createProduct(@Body newProduct: CreateProduct): Response<ProductResponse>
 
     @PUT("products/{id}")
     suspend fun updateProduct(@Path("id") id: Int, @Body update: ProductUpdateRequest): Response<ProductResponse>

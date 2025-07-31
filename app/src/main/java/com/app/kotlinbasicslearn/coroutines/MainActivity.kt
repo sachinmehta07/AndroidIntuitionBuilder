@@ -66,11 +66,12 @@ class MainActivity : AppCompatActivity() {
                 )
 
             } else {
+
                 val newProduct = CreateProduct(
                     title = binding.etTitle.text.toString(),
                     price = binding.etPrice.text.toString().toFloat(),
                     description = binding.etDescription.text.toString(),
-                    categoryId = 1,
+                    categoryId = 52,
                     images = listOf("https://placehold.co/600x400"),
                 )
                 createProduct(newProduct)
@@ -127,6 +128,15 @@ class MainActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
+                    val errorString = response.errorBody()?.string()
+                    Log.e("CreateProduct", "Error Response: $errorString")
+                    Log.d("RetrofitInstance", "Error Body: " + response.errorBody()?.string())
+                    Log.d("RetrofitInstance", "createProduct: +  " + response.errorBody().toString())
+                    Log.d("RetrofitInstance", "createProduct: +  " + response.isSuccessful)
+                    Log.d("RetrofitInstance", "createProduct: +  " + response.code())
+                    Log.d("RetrofitInstance", "createProduct: +  " + response.headers())
+                    Log.d("RetrofitInstance", "createProduct: +  " + response.raw())
+
                     Toast.makeText(
                         this@MainActivity,
                         response.body().toString(),
@@ -141,6 +151,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateProduct(product: ProductUpdateRequest) {
+
         lifecycleScope.launch(Dispatchers.IO) {
 
             val response = RetrofitInstance.apiService.updateProduct(productUpdate?.id!!, product)
