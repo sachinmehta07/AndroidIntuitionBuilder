@@ -2,9 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".ProductApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -15,10 +17,7 @@
         android:theme="@style/Theme.KotlinBasicsLearn"
         tools:targetApi="31">
         <activity
-            android:name=".mvvm.production_level.Dashboard"
-            android:exported="false" />
-        <activity
-            android:name=".mvvm.retrofit.Dashboard"
+            android:name=".workmanager.StockNewsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,11 +26,17 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".mvvm.production_level.Dashboard"
+            android:exported="false" />
+        <activity
+            android:name=".mvvm.retrofit.Dashboard"
+            android:exported="false" />
+        <activity
             android:name=".coroutines.MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".diffutil.UserActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".mvvm.sample.DashboardActivity"
             android:exported="false" />
@@ -58,7 +63,7 @@
             android:exported="false" />
         <activity
             android:name=".digitalpassport.EditActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".datapassing.DataPassingLearning"
             android:exported="false" />

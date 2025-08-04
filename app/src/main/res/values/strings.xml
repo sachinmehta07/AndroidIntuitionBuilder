@@ -6,4 +6,6 @@
     <string name="wallpaperimage">wallpaperimage</string>
     <string name="create_product">create product</string>
     <string name="update">Update</string>
+    <string name="news">Latest Stock News</string>
+    <string name="todo">TODO</string>
 </resources>

@@ -1,19 +1,26 @@
 package com.app.kotlinbasicslearn.mvvm.production_level.repository
 
-import android.text.BoringLayout
+
 import android.util.Log
+import androidx.lifecycle.LiveData
 import com.app.kotlinbasicslearn.coroutines.retrofit.ApiService
 import com.app.kotlinbasicslearn.coroutines.retrofit.CreateProduct
 import com.app.kotlinbasicslearn.coroutines.retrofit.Product
 import com.app.kotlinbasicslearn.coroutines.retrofit.ProductUpdateRequest
+import com.app.kotlinbasicslearn.mvvm.production_level.db.dao.ProductDao
 import com.app.kotlinbasicslearn.mvvm.production_level.utils.Resource
 
-class ProductRepository(private val productApiService: ApiService) {
+class ProductRepository(
+    private val productApiService: ApiService, private val productDao: ProductDao
+) {
 
-    suspend fun getProducts(): Resource<List<Product>>? {
+    suspend fun getProducts(
+        limit: Int = 20, offset: Int = 0
+    ): Resource<List<Product>>? {
 
         return try {
-            val response = productApiService.getProducts()
+
+            val response = productApiService.getProducts(limit, offset)
 
             Log.d("RetrofitInstance", "fetchProducts: +  " + response.message())
             Log.d("RetrofitInstance", "fetchProducts: +  " + response.errorBody().toString())
@@ -21,11 +28,15 @@ class ProductRepository(private val productApiService: ApiService) {
             Log.d("RetrofitInstance", "fetchProducts: +  " + response.body())
 
             if (response.isSuccessful) {
+
+                productDao.insertProducts(response.body() ?: emptyList())
+
                 Resource.Success(response.body() ?: emptyList())
             } else {
                 Resource.Error(response.errorBody().toString())
             }
         } catch (e: Exception) {
+            Log.d("TAG", "getProducts: $e")
             Resource.Error(e.message ?: "Unknown error")
         }
     }
@@ -38,6 +49,7 @@ class ProductRepository(private val productApiService: ApiService) {
             Log.d("RetrofitInstance", "createProduct: +  " + response.errorBody().toString())
             Log.d("RetrofitInstance", "createProduct: +  " + response.isSuccessful)
             Log.d("RetrofitInstance", "createProduct: +  " + response.body())
+
             if (response.isSuccessful) {
                 Resource.Success(response.isSuccessful)
             } else {
@@ -96,5 +108,16 @@ class ProductRepository(private val productApiService: ApiService) {
             Resource.Error(e.toString())
         }
     }
+
+    fun getProductsDb(): Resource<List<Product>?> {
+        val localData = productDao.getProducts()
+        Log.d("DB", "Fetched from DB: ${localData.size}")
+        return if (localData.isNotEmpty()) {
+            return Resource.Success(localData)
+        } else {
+            Resource.Error("No local data found")
+        }
+    }
+
 
 }

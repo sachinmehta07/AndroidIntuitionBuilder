@@ -65,6 +65,10 @@ dependencies {
     // add below dependency for using room.
     implementation(libs.androidx.room.runtime)
 
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+
+
     //Glide image loading
     implementation(libs.glide)
     implementation(libs.retrofit)
@@ -73,7 +77,11 @@ dependencies {
     //noinspection KaptUsageInsteadOfKsp
     kapt(libs.androidx.room.compiler)
 
+
     // ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    //workManager
+    implementation(libs.androidx.work.runtime.ktx)
 
 }

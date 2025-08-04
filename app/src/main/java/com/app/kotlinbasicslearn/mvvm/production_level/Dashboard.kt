@@ -1,21 +1,20 @@
 package com.app.kotlinbasicslearn.mvvm.production_level
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.app.kotlinbasicslearn.ProductApplication
 import com.app.kotlinbasicslearn.R
 import com.app.kotlinbasicslearn.coroutines.ProductAdapter
 import com.app.kotlinbasicslearn.coroutines.retrofit.CreateProduct
 import com.app.kotlinbasicslearn.coroutines.retrofit.Product
 import com.app.kotlinbasicslearn.coroutines.retrofit.ProductUpdateRequest
-import com.app.kotlinbasicslearn.coroutines.retrofit.RetrofitInstance
 import com.app.kotlinbasicslearn.databinding.ActivityDashboard4Binding
-import com.app.kotlinbasicslearn.mvvm.production_level.repository.ProductRepository
 import com.app.kotlinbasicslearn.mvvm.production_level.utils.Resource
 import com.app.kotlinbasicslearn.mvvm.production_level.viewmodels.ProductViewModel
 import com.app.kotlinbasicslearn.mvvm.production_level.viewmodels.ProductViewModelFactory
@@ -27,6 +26,7 @@ class Dashboard : AppCompatActivity() {
     private lateinit var productAdapter: ProductAdapter
     private lateinit var productViewModel: ProductViewModel
     private var productToUpdate: Product? = null
+    private var isLoading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,20 +34,34 @@ class Dashboard : AppCompatActivity() {
 
         binding = ActivityDashboard4Binding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        Log.d("TAG", "onCreate: ")
         setupViewModel()
         setupRecyclerView()
         setupObservers()
         setupListeners()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 
     private fun setupViewModel() {
-        val apiService = RetrofitInstance.apiService
-        val repository = ProductRepository(apiService)
+        Log.d("TAG", "setupViewModel: ")
+
+        val repository = (application as ProductApplication).productRepository
+
+//        val apiService = RetrofitInstance.apiService
+//        val dao = RoomDb.getDb(this)
+        //val repository = ProductRepository(apiService, dao.productDao())
+
         productViewModel = ViewModelProvider(
             this,
-            ProductViewModelFactory(repository)
+            ProductViewModelFactory(this.applicationContext, repository)
         )[ProductViewModel::class.java]
+
+
     }
 
     private fun setupRecyclerView() {
@@ -65,15 +79,18 @@ class Dashboard : AppCompatActivity() {
             when (resources) {
 
                 is Resource.Loading -> {
+                    isLoading = true
                     binding.progressBar.visibility = View.VISIBLE
                 }
 
                 is Resource.Success -> {
+                    isLoading = false
                     binding.progressBar.visibility = View.GONE
                     productAdapter.submitList(resources.data)
                 }
 
                 is Resource.Error -> {
+                    isLoading = false
                     binding.progressBar.visibility = View.GONE
                     showToast(resources.message)
                 }
@@ -154,7 +171,7 @@ class Dashboard : AppCompatActivity() {
 
     private fun setupListeners() {
         binding.btnSubmit.setOnClickListener {
-
+            if (!productViewModel.isInternetAvailable()) return@setOnClickListener
             if (!validateInputs()) {
                 showToast("Please fill in all fields")
                 return@setOnClickListener
@@ -167,9 +184,32 @@ class Dashboard : AppCompatActivity() {
                 productViewModel.fetchLatestCategoryId()
             }
         }
+        binding.productRecyclerView.addOnScrollListener(
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+                    val totalItemVisible = layoutManager.itemCount
+                    if (productViewModel.isInternetAvailable()) {
+                        productViewModel.loadMoreProducts(
+                            isLoading,
+                            lastVisibleItemPosition,
+                            totalItemVisible
+                        )
+                    } else {
+                        Toast.makeText(this@Dashboard, "No internet connection", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+
+                }
+            }
+        )
     }
 
-    fun showProgressBar(show: Boolean) {
+    private fun showProgressBar(show: Boolean) {
         if (show) {
             binding.progressBar.visibility = View.VISIBLE
         } else {
