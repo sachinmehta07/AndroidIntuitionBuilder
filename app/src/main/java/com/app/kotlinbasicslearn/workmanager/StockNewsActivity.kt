@@ -42,7 +42,10 @@ class StockNewsActivity : AppCompatActivity() {
         val repository = (application as ProductApplication).NewsRepository
 
         newsStockViewModel =
-            ViewModelProvider(this, NewsViewModelFactory(this, repository))[NewsModel::class.java]
+            ViewModelProvider(
+                this,
+                NewsViewModelFactory(application, repository)
+            )[NewsModel::class.java]
 
     }
 

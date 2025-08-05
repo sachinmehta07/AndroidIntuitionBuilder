@@ -36,4 +36,20 @@ class NewsRepository(
 
     }
 
+    suspend fun getNewsBackground(): Resources<List<StockNewsItem>> {
+
+        val response = newsApiService.getStockNews()
+        Log.d("getNewsBackground", "getStockNews: +  " + response.message())
+        Log.d("getNewsBackground", "getStockNews: +  " + response.errorBody().toString())
+        Log.d("getNewsBackground", "getStockNews: +  " + response.isSuccessful)
+        Log.d("getNewsBackground", "getStockNews: +  " + response.body())
+        return if (response.isSuccessful) {
+            stockNewsDao.insertStockNews(response.body() ?: emptyList())
+            Resources.Success(response.body() ?: emptyList())
+        } else {
+            Resources.Error(response.message())
+        }
+
+    }
+
 }

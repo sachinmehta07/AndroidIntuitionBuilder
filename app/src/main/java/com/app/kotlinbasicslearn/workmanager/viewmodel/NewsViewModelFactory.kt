@@ -1,12 +1,13 @@
 package com.app.kotlinbasicslearn.workmanager.viewmodel
 
+import android.app.Application
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.app.kotlinbasicslearn.workmanager.repository.NewsRepository
 
 class NewsViewModelFactory(
-    private val context: Context,
+    private val context: Application,
     private val newsRepository: NewsRepository
 ) : ViewModelProvider.Factory {
 
