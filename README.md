@@ -1,6 +1,8 @@
-# KotlinAndroidLearningModules
+# Exploring Android's ecosystem hands-on, with purpose and structure
 
 📘 A personal learning repository where I explore Kotlin and Android concepts by building **mini modular apps** — each focused on one concept like WorkManager, LiveData, Room, Retrofit, Coroutines, etc.
+
+#Not just learning — internalizing Android by building real use cases
 
 ## 🚀 Purpose
 
@@ -31,15 +33,7 @@ _(More modules will be added as I learn new concepts)_
 
 ---
 
-## 🧩 Folder Structure
-/workmanager-news-app/
-└─ MVVM-based background fetch
-/retrofit-api-demo/
-└─ API call using ViewModel + Retrofit
-/room-db-crud/
-└─ Simple local storage
-
- Goals
+# My Intent : 
 ✅ Learn Kotlin with real Android use cases
 
 ✅ Practice modular, clean coding patterns
