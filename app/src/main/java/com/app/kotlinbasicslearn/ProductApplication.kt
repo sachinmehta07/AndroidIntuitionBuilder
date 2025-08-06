@@ -26,7 +26,7 @@ class ProductApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         initialize()
-        enqueueNewsNotification(this) // schedules at launch
+       // enqueueNewsNotification(this) // schedules at launch
     }
 
     private fun initialize() {

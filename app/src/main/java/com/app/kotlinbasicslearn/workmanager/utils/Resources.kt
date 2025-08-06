@@ -18,3 +18,4 @@ sealed class Resources<out T> {
     data class Error(val message: String) : Resources<Nothing>()
 
 }
+
